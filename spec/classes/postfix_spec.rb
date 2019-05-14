@@ -45,7 +45,7 @@ describe 'postfix' do
           it { is_expected.to contain_postfix__config('mailq_path') }
 
           case facts[:operatingsystemmajrelease]
-          when '7'
+          when /7|29|30/
             it { is_expected.to contain_file('/etc/aliases').with_seltype('etc_aliases_t').with_content("# file managed by puppet\n") }
             it {
               is_expected.to contain_service('postfix').with(

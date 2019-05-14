@@ -2,21 +2,21 @@ class postfix::params {
   case $::osfamily {
     'RedHat': {
       $aliasesseltype = $::operatingsystemmajrelease ? {
-        '4'     => 'etc_t',
-        /5/     => 'postfix_etc_t',
-        /6|7/   => 'etc_aliases_t',
-        default => undef,
+        '4'           => 'etc_t',
+        /5/           => 'postfix_etc_t',
+        /6|7|29|30/   => 'etc_aliases_t',
+        default       => undef,
       }
 
       $seltype = $::operatingsystemmajrelease ? {
-        '4'     => 'etc_t',
-        /5|6|7/ => 'postfix_etc_t',
-        default => undef,
+        '4'           => 'etc_t',
+        /5|6|7|29|30/ => 'postfix_etc_t',
+        default       => undef,
       }
 
       $restart_cmd = $::operatingsystemmajrelease ? {
-        '7'     => '/bin/systemctl reload postfix',
-        default => '/etc/init.d/postfix reload',
+        /7|29|30/ => '/bin/systemctl reload postfix',
+        default   => '/etc/init.d/postfix reload',
       }
 
       $mailx_package = 'mailx'
