@@ -105,15 +105,6 @@ matrix:
       - BEAKER_PUPPET_COLLECTION=puppet5
       - BEAKER_debug=true
       - BEAKER_setfile=fedora29-64{hypervisor=docker}
-  - rvm: default
-    sudo: required
-    services: docker
-    env:
-      - PUPPET_INSTALL_TYPE=agent
-      - BEAKER_IS_PE=no
-      - BEAKER_PUPPET_COLLECTION=puppet5
-      - BEAKER_debug=true
-      - BEAKER_setfile=fedora30-64{hypervisor=docker}
     bundler_args:
     script: bundle exec rspec spec/acceptance/*_spec.rb
   allow_failures:
