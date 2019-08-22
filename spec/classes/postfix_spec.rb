@@ -35,6 +35,19 @@ describe 'postfix' do
               :hasstatus => 'true',
               :restart   => '/etc/init.d/postfix reload'
             ) }
+          when 'Archlinux'
+            it { is_expected.to contain_file('/etc/mailname').without('seltype').with_content("foo.example.com\n") }
+            it { is_expected.to contain_file('/etc/aliases').without('seltype').with_content("# file managed by puppet\n") }
+            it { is_expected.to contain_file('/etc/postfix/master.cf').without('seltype') }
+            it { is_expected.to contain_file('/etc/postfix/main.cf').without('seltype') }
+
+            it {
+              is_expected.to contain_service('postfix').with(
+                :ensure    => 'running',
+                :enable    => 'true',
+                :hasstatus => 'true',
+                :restart   => '/usr/bin/systemctl reload postfix'
+              ) }
         else
           it { is_expected.to contain_file('/etc/mailname').with_seltype('postfix_etc_t').with_content("foo.example.com\n") }
           it { is_expected.to contain_file('/etc/postfix/master.cf').with_seltype('postfix_etc_t') }

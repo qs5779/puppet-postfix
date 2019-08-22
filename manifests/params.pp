@@ -62,6 +62,16 @@ class postfix::params {
       }
     }
 
+    'Archlinux': {
+      $aliasesseltype = undef
+      $seltype = undef
+
+      $mailx_package = 's-nail'
+
+      $restart_cmd = '/usr/bin/systemctl reload postfix'
+      $master_os_template = "${module_name}/master.cf.sles.erb"
+    }
+
     default: {
       case $::operatingsystem {
         'Alpine': {

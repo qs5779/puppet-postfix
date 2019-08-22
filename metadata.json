@@ -63,6 +63,12 @@
       ]
     },
     {
+      "operatingsystem": "Archlinux",
+      "operatingsystemrelease": [
+        "18"
+      ]
+    },
+    {
       "operatingsystem": "Alpine"
     }
   ]
