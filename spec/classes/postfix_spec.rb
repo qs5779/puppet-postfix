@@ -107,7 +107,13 @@ describe 'postfix' do
 
       context 'when setting parameters' do
         case facts[:osfamily]
-        when 'Debian'
+        when 'Debian', 'Archlinux'
+          restart_cmd =
+            if facts[:osfamily] == 'Archlinux'
+              '/usr/bin/systemctl reload postfix'
+            else
+              '/etc/init.d/postfix reload'
+            end
           context "when setting smtp_listen to 'all'" do
             let(:params) do
               {
