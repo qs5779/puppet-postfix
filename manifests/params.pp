@@ -36,6 +36,10 @@ class postfix::params (
       }
     }
 
+    'Archlinux': {
+      $master_os_template = "${module_name}/master.cf.debian.erb"
+    }
+
     default: {
       case $::operatingsystem {
         'Alpine': {

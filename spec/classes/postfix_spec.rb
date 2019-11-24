@@ -35,6 +35,19 @@ describe 'postfix' do
               :hasstatus => 'true',
               :restart   => '/etc/init.d/postfix reload'
             ) }
+          when 'Archlinux'
+            it { is_expected.to contain_file('/etc/mailname').without('seltype').with_content("foo.example.com\n") }
+            it { is_expected.to contain_file('/etc/aliases').without('seltype').with_content("# file managed by puppet\n") }
+            it { is_expected.to contain_file('/etc/postfix/master.cf').without('seltype') }
+            it { is_expected.to contain_file('/etc/postfix/main.cf').without('seltype') }
+
+            it {
+              is_expected.to contain_service('postfix').with(
+                :ensure    => 'running',
+                :enable    => 'true',
+                :hasstatus => 'true',
+                :restart   => '/usr/bin/systemctl reload postfix'
+              ) }
         else
           it { is_expected.to contain_file('/etc/mailname').with_seltype('postfix_etc_t').with_content("foo.example.com\n") }
           it { is_expected.to contain_file('/etc/postfix/master.cf').with_seltype('postfix_etc_t') }
@@ -98,7 +111,13 @@ describe 'postfix' do
 
       context 'when setting parameters' do
         case facts[:osfamily]
-        when 'Debian'
+        when 'Debian', 'Archlinux'
+          restart_cmd =
+            if facts[:osfamily] == 'Archlinux'
+              '/usr/bin/systemctl reload postfix'
+            else
+              '/etc/init.d/postfix reload'
+            end
           context "when setting smtp_listen to 'all'" do
             let (:params) { {
               :smtp_listen         => 'all',
@@ -156,7 +175,7 @@ describe 'postfix' do
                 :ensure    => 'running',
                 :enable    => 'true',
                 :hasstatus => 'true',
-                :restart   => '/etc/init.d/postfix reload'
+                :restart   => restart_cmd,
               ) }
           end
         else
