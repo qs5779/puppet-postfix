@@ -1,5 +1,6 @@
 20191123 - closed previous fedora support PR
          - created new fedora support PR branch feature_hieradata_params
          - merged feature_hieradata_params to verify
-         - branch feature_archlinux, needs PR for puppet-augeas to be accepted / merged before can submit PR
+         - branch feature_archlinux
          - merged feature_archlinux to verify
+20191126 - PR puppet-augeas accepted
