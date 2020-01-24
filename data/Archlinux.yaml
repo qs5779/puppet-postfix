@@ -1,4 +1,5 @@
 ---
 postfix::params::restart_cmd: '/usr/bin/systemctl reload postfix'
 postfix::params::mailx_package: 's-nail'
+postfix::params::master_os_template: 'postfix/master.cf.debian.erb'
 ...
